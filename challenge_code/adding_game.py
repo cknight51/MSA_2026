@@ -49,7 +49,7 @@ def main():
             else:
                 print("WRONG!!!")
                 attempts += 1
-        if attempting > 2:
+        if attempts > 2:
             print(f"Correct Answer: {num_1} + {num_2} = {num_1 + num_2}")
 
     print(f"You got {correct} out of {questions} correct: {100 * (correct / questions):.2f}%")
