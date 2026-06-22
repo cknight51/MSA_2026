@@ -3,6 +3,9 @@ def boat(type: str, length: int, value: str, grid: list, player: str):
         rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         columns = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         home_tile = input(f"{player}, where would you like to place your {type} (Enter in format 'row: A to J'-'column: 1 to 10' ex. B-5): ").strip().split("-")
+        if len(home_tile) != 2:
+            print("ERROR: Invalid Formatting")
+            continue
         home_tile[0] = home_tile[0].upper()
         
         if home_tile[0] not in rows:
@@ -100,8 +103,12 @@ def boat(type: str, length: int, value: str, grid: list, player: str):
             if tiles_placed == length:
                 return grid
 
-def scan():
-    pass
+def scan(loser_grid):
+    for row in range(len(loser_grid)):
+        for column in range(len(loser_grid[row])):
+            if loser_grid[row][column] in {'1', '2', '3', '4', '5'}:
+                return False
+    return True
 
 def shoot(player, player_grid, opponent_grid, shot_grid):
     print("\n\nYOUR FLEET:")
@@ -115,6 +122,9 @@ def shoot(player, player_grid, opponent_grid, shot_grid):
         rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         columns = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         tile = input(f"\n{player}, where would you like to shoot (Enter in format 'row: A to J'-'column: 1 to 10' ex. B-5): ").strip().split("-")
+        if len(tile) != 2:
+            print("ERROR: Invalid Formatting")
+            continue
         tile[0] = tile[0].upper()
 
         if tile[0] not in rows:
@@ -127,16 +137,15 @@ def shoot(player, player_grid, opponent_grid, shot_grid):
         row_index = rows.index(tile[0])
         column_index = columns.index(tile[1])
 
-        if opponent_grid[row_index][column_index] != ' ':
+        if shot_grid[row_index][column_index] in {'X', 'O'}:
+            print("You've already shot there. Try Again.")
+            continue
+        elif opponent_grid[row_index][column_index] != ' ':
             print("HIT")
             opponent_grid[row_index][column_index] = 'X'
             shot_grid[row_index][column_index] = 'X'
-            #win = scan(opponent_grid)
-            #return win
-            break
-        elif shot_grid[row_index][column_index] in {'X', 'O'}:
-            print("You've already shot there. Try Again.")
-            continue
+            win = scan(opponent_grid)
+            return win
         else:
             print("MISS")
             opponent_grid[row_index][column_index] = 'O'
@@ -148,12 +157,12 @@ def main():
     player1_shot_grid = []
     for row in range(10):
         row = []
-        for column in range(10):
+        for _ in range(10):
             row.append(' ')
         player1_grid.append(row)
     for row in range(10):
         row = []
-        for column in range(10):
+        for _ in range(10):
             row.append(' ')
         player1_shot_grid.append(row)
         
@@ -168,12 +177,12 @@ def main():
     player2_shot_grid = []
     for row in range(10):
         row = []
-        for column in range(10):
+        for _ in range(10):
             row.append(' ')
         player2_grid.append(row)
     for row in range(10):
         row = []
-        for column in range(10):
+        for _ in range(10):
             row.append(' ')
         player2_shot_grid.append(row)
     print()
@@ -184,10 +193,18 @@ def main():
     player2_grid = boat("Battleship", 3, '4', player2_grid, "Player 2")
     player2_grid = boat("Patrol Boat", 2, '5', player2_grid, "Player 2")
 
-    end = False
+    player1_win = False
+    player2_win = False
 
-    while not end:
-        end = shoot("Player 1", player1_grid, player2_grid, player1_shot_grid)
-        end = shoot("Player 2", player2_grid, player1_grid, player2_shot_grid)
+    while not player1_win and not player2_win:
+        player1_win = shoot("Player 1", player1_grid, player2_grid, player1_shot_grid)
+        player2_win = shoot("Player 2", player2_grid, player1_grid, player2_shot_grid)
+    
+    if player1_win and player2_win:
+        print("It's a Tie!")
+    elif player1_win:
+        print("Player 1 Wins!")
+    else:
+        print("Player 2 Wins!")
 
 main()
