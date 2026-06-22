@@ -2,16 +2,20 @@ from Student import Student
 
 def main():
     # Open students.csv
-    data_file = open("challenge_code\OOP\students.csv")
+    data_file = open("students.csv")
     
     # Create an empty list of students
     students = []
 
     # Iterate of each line of students.csv and split on commas
+    line_count = -1
     for line in data_file:
+        line_count += 1
+        if line_count == 0:
+            continue
         student_data = line.split(",")
         if len(student_data) != 6:
-            print(f"ERROR: Invalid formatting on Line {students.index(line)}")
+            print(f"ERROR: Invalid formatting: {line}")
             continue
         try:
             student: Student = Student(student_data[0], student_data[1], student_data[2], int(student_data[3]), student_data[4], student_data[5])
