@@ -1,6 +1,11 @@
 from Student import Student
 
-def main():
+'''
+Function to return a list of student objects
+Input: None
+Output: List of student objects
+'''
+def load_students() -> list[Student]:
     # Open students.csv
     data_file = open("students.csv")
     
@@ -33,8 +38,49 @@ def main():
         # Add student to the list of students
         students.append(student)
 
-    # Print each student's data
-    for student in students:
-        student.print_student_data()
+    data_file.close()
+    return students
 
-main()
+'''
+Function to convert student objects into student dictinoaries
+Input: List of student objects
+Output: List of student dictionaries
+'''
+def student_to_dictionary(list_of_students: list[Student]) -> list[dict]:
+    # Create an empty list to store the dictionaries
+    student_dictionary_list = []
+
+    # Loop through list_of_students and write each student's data to a dictionary
+    for student in list_of_students:
+        # Create an empty dictionary
+        student_dictionary = {}
+
+        # Make entries into the dictionary using the student properties
+        # firstname, lastname, major, gpa, class, id
+        student_dictionary["first_name"] = student.get_first_name()
+        student_dictionary["last_name"] = student.get_last_name()
+        student_dictionary["major"] = student.get_major()
+        student_dictionary["gpa"] = student.get_gpa()
+        student_dictionary["class"] = student.get_class_level()
+        student_dictionary["id"] = student.get_id().strip()
+
+        # append the dictionary to the list of dictionaries
+        student_dictionary_list.append(student_dictionary)
+
+    # return the list of dictionaries
+    return student_dictionary_list
+
+'''
+Function to get student dictionaries
+Input: None
+Output: List of student dictionaries
+'''
+def get_student_dicitonaries():
+    # Get a list of students
+    student_list = load_students()
+
+    # Get a list of student dictionaries
+    student_dictionaries = student_to_dictionary(student_list)
+    
+    # Return a list of student dictionaries
+    return student_dictionaries
