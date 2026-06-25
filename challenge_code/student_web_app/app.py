@@ -25,5 +25,18 @@ def index():
 
     return render_template("index.html", student_data=student_data)
 
+# Create a route for the major search page to respond to get requests
+@app.route("/majors")
+def majors_get():
+    # Get the list of majors
+    url = "http://127.0.0.1:5000/api/majors/all"
+    majors = get_student_data(url)
+
+    # Send the list of majors to the majors template to populate the menu
+    return render_template("majors.html", majors=majors)
+
+# Create a route for the major search page to respond to post requests after the form is submitted
+
+
 #run the flask app
 app.run(port=5001)
