@@ -1,4 +1,17 @@
 from Student import Student
+from datetime import datetime
+
+'''
+Function to write an error message to a log file
+Input: (str) Error message
+Output: None
+'''
+def write_to_error_log(message: str) -> None:
+    date = datetime.now()
+    # Open the log file in append mode
+    with open("error_log.txt", "a") as log_file:
+        # Write an error message to the file
+        log_file.write(f"{date}: {message}\n")
 
 '''
 Function to return a list of student objects
@@ -25,14 +38,14 @@ def load_students() -> list[Student]:
 
         # Check if the list has the proper amount of items
         if len(student_data) != 6:
-            print(f"ERROR: Invalid formatting on Line {line_number} of the file. Data has {len(student_data)} items but should have 6.\n")
+            write_to_error_log(f"ERROR: Invalid formatting on Line {line_number} of the file. Data has {len(student_data)} items but should have 6.")
             continue
         
         # Try to make a Student, if failed, print error statement 
         try:
             student: Student = Student(student_data[0], student_data[1], student_data[2], int(student_data[3]), float(student_data[4]), student_data[5])
         except:
-            print(f"ERROR: Invalid formatting on Line {line_number}")
+            write_to_error_log(f"ERROR: Invalid formatting on Line {line_number} of the file. Credit hours or GPA are invalid values.")
             continue
 
         # Add student to the list of students
