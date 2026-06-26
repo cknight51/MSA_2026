@@ -1,0 +1,2 @@
+2026-06-26 10:11:15.918404: ERROR: Invalid formatting on Line 2 of the file. Data has 5 items but should have 6.
+2026-06-26 10:11:15.919859: ERROR: Invalid formatting on Line 3 of the file. Credit hours or GPA are invalid values.
