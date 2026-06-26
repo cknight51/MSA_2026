@@ -10,7 +10,7 @@
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('majors_get') }}">Majors</a>
-            
+            <a href="{{ url_for('class_get') }}">Class</a>
         </nav>
         <div class="content">
             {% for message in get_flashed_messages() %}
