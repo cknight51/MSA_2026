@@ -65,7 +65,7 @@ def api_id(id: str):
 
 # Create a route that returns a list of unique majors
 @app.route("/api/majors/all")
-def get_all_majpors():
+def get_all_majors():
     # Create a list to store the majors
     majors = []
 
